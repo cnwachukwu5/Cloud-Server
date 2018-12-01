@@ -1,5 +1,6 @@
 
 import java.io.DataInputStream;
+import java.io.File;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -20,16 +21,19 @@ public class CloudServer {
     public static void main(String[] args) {
         init();
         Socket cacheNode = null;
-        try{
-            //Listen for connection
-            cacheNode = serverSocket.accept();
 
-            PrintWriter output = new PrintWriter(cacheNode.getOutputStream(), true);
-            DataInputStream fromCacheNodes = new DataInputStream(cacheNode.getInputStream());//Read from input
+        while(true) {
+            try {
+                //Listen for connection
+                System.out.println("Waiting for connection from CacheNode");
+                cacheNode = serverSocket.accept();
+                System.out.println("CacheNode connected");
 
-        }catch(Exception e){
-            e.printStackTrace();
+                new Thread(new Threads(cacheNode)).start();
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
-
     }
 }
