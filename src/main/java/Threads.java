@@ -37,18 +37,23 @@ public class Threads implements Runnable{
 
                 output.println(server_status+"\n");
 
-                //while ((end_Duration_Monitor - start_Duration_Monitor) <= status_duration) {
-                    //output.println(server_status);
+                while ((end_Duration_Monitor - start_Duration_Monitor) <= status_duration) {
+                    output.println(server_status+"\n");
                     String value_Read = fromCacheNodes.readLine();
 
-                    if(!value_Read.equals("Not actual data")){
-                        counter++;
+                    if(!value_Read.equals("")){
+                        if(!value_Read.equals("Not actual data")){
+                            counter++;
+                        }
+                        System.out.println("Value received: " + value_Read);
+                        dataFromCacheNode.add(value_Read);
                     }
-                    System.out.println("Value received: " + value_Read);
-                    dataFromCacheNode.add(value_Read);
+
+
 
                     end_Duration_Monitor = System.currentTimeMillis();
-                //}
+                }
+                System.out.println("Total data received: " + dataFromCacheNode.size());
             }
 
         }catch (Exception e){
